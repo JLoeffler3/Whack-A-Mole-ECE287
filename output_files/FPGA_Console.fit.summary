@@ -1,0 +1,16 @@
+Fitter Status : Successful - Thu Nov 30 15:00:16 2017
+Quartus II 64-Bit Version : 14.0.0 Build 200 06/17/2014 SJ Web Edition
+Revision Name : FPGA_Console
+Top-level Entity Name : FPGA_Console
+Family : Cyclone IV E
+Device : EP4CE115F29C7
+Timing Models : Final
+Total logic elements : 2,513 / 114,480 ( 2 % )
+    Total combinational functions : 2,509 / 114,480 ( 2 % )
+    Dedicated logic registers : 469 / 114,480 ( < 1 % )
+Total registers : 469
+Total pins : 68 / 529 ( 13 % )
+Total virtual pins : 0
+Total memory bits : 0 / 3,981,312 ( 0 % )
+Embedded Multiplier 9-bit elements : 48 / 532 ( 9 % )
+Total PLLs : 0 / 4 ( 0 % )

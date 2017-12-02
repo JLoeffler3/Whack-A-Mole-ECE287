@@ -1,0 +1,123 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use ieee.math_real.all;
+
+entity FPGA_Console is
+Port ( 
+	clk, btn1, btn2, btn3, btn4, sw : in std_logic;
+	clock_vga : out std_logic;
+	A1, B1, C1, D1, E1, F1, G1 : out std_logic;
+	A10, B10, C10, D10, E10, F10, G10 : out std_logic;
+	A100, B100, C100, D100, E100, F100, G100 : out std_logic;
+	A1000, B1000, C1000, D1000, E1000, F1000, G1000 : out std_logic;
+	hsync1, vsync1 : out std_logic;
+	VGA_R,VGA_G,VGA_B : out std_logic_vector(7 downto 0);
+	led1, led2, led3, led4 : out std_logic);
+	
+end FPGA_Console;
+
+architecture Behavioral of FPGA_Console is
+	
+	component lfsr
+		port(clk1 : in std_logic;
+			  cout : out std_logic_vector(7 downto 0));
+	end component;
+	component seg
+		port(BITS : in std_LOGIC_vector(3 downto 0);
+			  A, B, C, D, E, F, G : out std_logic);
+	end component;
+	component vga_driver
+		port(CLK : in std_logic;
+			  RST : in std_logic;
+			  MLE1 : in std_logic;
+			  MLE2 : in std_logic;
+			  MLE3 : in std_logic;
+			  MLE4 : in std_logic;
+			  MODE : in std_logic_vector(4 downto 0);
+			  HSYNC : out std_logic;
+			  VSYNC : out std_logic;
+			  R : out std_logic_vector(7 downto 0);
+			  G : out std_logic_vector(7 downto 0);
+			  B : out std_logic_vector(7 downto 0);
+			  VGA_CLOCK : out std_logic
+			  );
+	end component;
+	signal MUN1, MUN10, MUN100, MUN1000 : std_LOGIC_vector(3 downto 0);
+	signal count1, count2 : integer := 0;
+	signal mole1, mole2, mole3, mole4, toIncrease : std_logic ;
+	signal nextMole : Integer;
+	signal randomnum : std_logic_vector(7 downto 0);
+	signal modeSelect : std_logic_vector(4 downto 0);
+
+	begin
+	vga: vga_driver
+		port map(
+			CLK => clk,
+			RST => sw,
+			HSYNC => hsync1,
+			VSYNC => vsync1,
+			VGA_CLOCK => clock_vga,
+			MLE1 => mole4,
+			MLE2 => mole3,
+			MLE3 => mole2,
+			MLE4 => mole1,
+			MODE => modeSelect,
+			R => VGA_R,
+			G => VGA_G,
+			B => VGA_B
+		);
+	randomgen: lfsr
+		port map(
+			clk1 => clk,
+			cout => randomnum
+		);
+	seg1: seg
+		port map(
+			BITS => MUN1,
+			A => A1,
+			B => B1,
+			C => C1,
+			D => D1,
+			E => E1,
+			F => F1,
+			G => G1
+		);
+	
+	seg10: seg
+		port map(
+			BITS => MUN10,
+			A => A10,
+			B => B10,
+			C => C10,
+			D => D10,
+			E => E10,
+			F => F10,
+			G => G10
+		);
+	
+	seg100: seg
+		port map(
+			BITS => MUN100,
+			A => A100,
+			B => B100,
+			C => C100,
+			D => D100,
+			E => E100,
+			F => F100,
+			G => G100
+		);
+	
+	seg1000: seg
+		port map(
+			BITS => MUN1000,
+			A => A1000,
+			B => B1000,
+			C => C1000,
+			D => D1000,
+			E => E1000,
+			F => F1000,
+			G => G1000
+		);
+
+end Behavioral;
